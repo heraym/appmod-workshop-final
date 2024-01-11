@@ -213,13 +213,13 @@ func readCatalogFile(catalog *pb.ListProductsResponse) error {
 	defer catalogMutex.Unlock()
 
 	// Hernan Leer catalogo
-	// Hay que definir como pasar como parametro el nombre del archivo y bucket
+	// Para leer el catalogo busca en un bucket (del proyecto actual) llamado online-store el objeto products.json
 	ctx := context.Background()
 	client, err := storage.NewClient(ctx)
     if err != nil {
        log.Fatalf("Error to read Cloud Storage", err)
     }
-	bkt := client.Bucket("haymard-demos")
+	bkt := client.Bucket("online-store")
 	obj := bkt.Object("products.json")
 	r, err := obj.NewReader(ctx)
     if err != nil {
