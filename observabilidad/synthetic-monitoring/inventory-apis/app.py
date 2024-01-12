@@ -30,7 +30,7 @@ if "uptimecheckfailure" in os.environ:
 def healthy():
     if introduce_uptimetimecheckfailure:
        return "Error",500
-    return "All Izz Well"
+    return "Todo bien"
 
 @app.route('/inventory', methods=['GET'])
 def inventorylist():
