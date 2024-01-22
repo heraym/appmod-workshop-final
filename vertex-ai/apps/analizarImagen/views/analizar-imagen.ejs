@@ -12,29 +12,30 @@
     </style></head>
     <body style="font-family:Verdana;color:#aaaaaa;">
     <div style="background-color:#e5e5e5;padding:15px;text-align:center;">
-    <h1 style="font-size:5vw">Comparar imagenes</h1>
+    <h1 style="font-size:5vw">Analizar imagenes</h1>
     </div>
     <div class="main">
         <h2>Analisis de Imagenes con Gemini</h2>
-        <p>Lo que hacemos en este ejemplo es pedirle a la API de Gemini que me compare estas imagenes. Podemos cargar cualquier imagen y ver que nos dice.</p>
-    
-    <form id="file1form" action="fileupload" method="post" enctype="multipart/form-data">
+        <p>Lo que hacemos en este ejemplo es pedirle a la API de Gemini que distinto tipos de analisis con las imagenes. Podemos cargar cualquier imagen y ver que nos dice.</p>
+    <table border="0"><tr><td>
+    <form id="fileform" action="fileupload" method="post" enctype="multipart/form-data">
     Imagen1: <input type="file" id="files" name="filetoupload" onchange="document.getElementById('fileform').submit()" accept="image/*">
-    <img src="<%= imagen %>" id="img-imagen" width="auto" height="150"/> <br></form>
+    <img src="<%= imagen %>" id="img-imagen" width="auto" height="150"/><br></form>
     
+  </td><td>
+<textarea id="prompt" rows="10" cols="50"/>Que se muestra en esta imagen?</textarea><br><input type="button" value="Preguntar a Gemini" onclick="preguntar()"/><br>
 
-<input type="button" value="Preguntar" onclick="preguntar()"/><br>
-<div id="resultado"></div>
-</div>
+</td></tr></table>
+<div id="resultado"></div></div>
 <br>
 <script>
     async function preguntar() {
         var response = await   
-        fetch('/analizar-imagen-query', {
+        fetch('/analizar-imagen-query?prompt=' + document.getElementById("prompt").value, {
             method: 'GET'});
-        response = await response.text();
+        respuesta = await response.text();
 
-        document.getElementById("resultado").innerHTML = response;
+        document.getElementById("resultado").innerHTML = respuesta;
     }
     function mostrarImagen() { 
       var imagen = document.getElementById("img-imagen");
