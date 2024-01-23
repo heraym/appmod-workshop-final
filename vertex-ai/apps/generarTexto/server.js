@@ -20,16 +20,40 @@ const clientOptions = {
 const publisher = 'google';
 const model = 'text-bison@001';
 
+const http = require('http');
+const hostname = '0.0.0.0';
+const port = process.env.PORT ||3000; 
+var express = require('express');
+const cors = require('cors');
+
+const app = express();
+app.use(cors())
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.static('.'));
+
+app.set("view engine", "ejs");
+
+const server = http.createServer(app);
+
+var textoPrompt = "Give me ten interview questions for the role of program manager.";
+
+app.get('/generar-texto', function(req,res,next) {
+    res.render("generar-texto",{ prompt: textoPrompt});
+});
+
+app.get('/generar-texto-query', async function(req,res,next) {
+
+textoPrompt = req.query.prompt;
+
 // Instantiates a client
 const predictionServiceClient = new PredictionServiceClient(clientOptions);
 
-async function callPredict() {
   // Configure the parent resource
   const endpoint = `projects/${project}/locations/${location}/publishers/${publisher}/models/${model}`;
 
   const prompt = {
-    prompt:
-      'Give me ten interview questions for the role of program manager.',
+    prompt: textoPrompt,
   };
   const instanceValue = helpers.toValue(prompt);
   const instances = [instanceValue];
@@ -51,7 +75,11 @@ async function callPredict() {
   // Predict request
   const response = await predictionServiceClient.predict(request);
   console.log('Get text prompt response');
-  console.log(response);
-}
+  console.log(JSON.stringify(response[0].predictions[0].structValue.fields.content));
+  res.send(JSON.stringify(response[0].predictions[0].structValue.fields.content));
+});
 
-callPredict();
+server.listen(port, hostname, () => {
+    console.log('Server running at http://%s:%s/', hostname, port);
+});
+ 

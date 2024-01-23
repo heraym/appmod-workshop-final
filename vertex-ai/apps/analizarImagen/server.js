@@ -29,7 +29,7 @@ var mimeType = 'image/jpeg';
 var prompt = "what is shown in this image?";
   
   app.get('/analizar-imagen', function(req,res,next) {
-      res.render("analizar-imagen",{ imagen: "images/imagen1.jpg"});
+      res.render("analizar-imagen",{ imagen: imagen, prompt: prompt});
   });
 
   app.get('/analizar-imagen-query', async function(req,res,next) {

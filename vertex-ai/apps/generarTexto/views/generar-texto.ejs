@@ -1,0 +1,36 @@
+<html><head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+    * {
+      box-sizing: border-box;
+    }
+    .main {
+      float: left;
+      width: 60%;
+      padding: 0 20px;
+    }
+    </style></head>
+    <body style="font-family:Verdana;color:#aaaaaa;">
+    <div style="background-color:#e5e5e5;padding:15px;text-align:center;">
+    <h1 style="font-size:5vw">Generar Texto</h1>
+    </div>
+    <div class="main">
+        <h2>Generar Texto con Gemini</h2>
+        <p>Lo que hacemos en este ejemplo es pedirle a la API de Gemini que distinto tipos de texto en base al prompt que le damos.</p>
+     
+<textarea id="prompt" rows="10" cols="50"/><%= prompt %></textarea><br><input type="button" value="Preguntar a Gemini" onclick="preguntar()"/><br>
+
+<div id="resultado"></div></div>
+<br>
+<script>
+    async function preguntar() {
+        var response = await   
+        fetch('/generar-texto-query?prompt=' + document.getElementById("prompt").value, {
+            method: 'GET'});
+        respuesta = await response.text();
+
+        document.getElementById("resultado").innerHTML = respuesta;
+    }
+   
+</script>    
+</body></html>
