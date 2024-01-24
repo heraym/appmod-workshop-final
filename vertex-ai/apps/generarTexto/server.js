@@ -38,6 +38,10 @@ const server = http.createServer(app);
 
 var textoPrompt = "Give me ten interview questions for the role of program manager.";
 
+app.get('/', function(req,res,next) {
+  res.render("generar-texto",{ prompt: textoPrompt});
+});
+
 app.get('/generar-texto', function(req,res,next) {
     res.render("generar-texto",{ prompt: textoPrompt});
 });
